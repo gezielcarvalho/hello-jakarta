@@ -87,7 +87,7 @@ Rebuild the app in Maven on the host, and Tomcat reloads files without restart.
 1. Run Tomcat in Docker:
 
    ```bash
-   docker-compose up --build
+   docker compose up --build
    ```
 
 2. In a separate terminal or via IDE:
