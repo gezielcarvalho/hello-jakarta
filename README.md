@@ -1,99 +1,119 @@
-# Jakarta EE 10 with Tomcat 9: Hot Reloading Setup
+# Jakarta EE with Tomcat 9: Hot Reloading Setup
 
-This guide helps you set up a Jakarta EE 10 project with Tomcat 9 for hot reloading.
-
-### 🐳 1. **Docker-Based Dev Environment**
-
-#### **`Dockerfile`**
-
-```Dockerfile
-FROM tomcat:9.0-jdk8
-
-# Remove default apps
-RUN rm -rf /usr/local/tomcat/webapps/*
-
-# Copy exploded WAR for hot reload
-COPY target/hello-jakarta /usr/local/tomcat/webapps/hello-jakarta
-
-EXPOSE 8080
-CMD ["catalina.sh", "run"]
-```
+This guide walks you through setting up a Jakarta EE project with **Tomcat 9**, using **Docker**, **Maven**, and a **VS Code dev container** for near hot-reloading support.
 
 ---
 
-### 📁 2. **Enable Hot Reload (Exploded Deployment)**
+### 🐳 1. Dev Container Environment (Docker + VS Code)
 
-Use Maven to generate an **exploded WAR directory**, not a `.war` file. Add this to `pom.xml`:
+This project uses a [dev container](.devcontainer/devcontainer.json) for a consistent and isolated development environment. The container includes:
 
-```xml
-<build>
-  ...
-  <plugins>
-    ...
-    <plugin>
-      <artifactId>maven-war-plugin</artifactId>
-      <version>3.3.1</version>
-      <configuration>
-        <failOnMissingWebXml>false</failOnMissingWebXml>
-        <warName>hello-jakarta</warName>
-        <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
-      </configuration>
-    </plugin>
-  </plugins>
-</build>
-```
+* **Maven**
+* **OpenJDK 8**
+* **Apache Tomcat 9.0.105**
 
-Then build using:
+**Dev container highlights:**
+
+* See [.devcontainer/Dockerfile](.devcontainer/Dockerfile) for the setup.
+* Tomcat is installed at `/opt/tomcat` inside the container.
+* Port **8080** is exposed for access via your browser.
+
+**To get started:**
+
+1. Open the project in **VS Code**.
+2. When prompted, click **“Reopen in Container.”**
+
+---
+
+### 👤 2. Customizing Tomcat Users
+
+To add or update Tomcat manager users:
+
+1. Edit [`tomcat-users.xml`](tomcat-users.xml) in the project.
+2. Copy it into the container:
+
+   ```bash
+   cp tomcat-users.xml /opt/tomcat/conf/tomcat-users.xml
+   ```
+3. Restart Tomcat for changes to take effect.
+
+---
+
+### 📦 3. Exploded WAR Deployment for Hot Reload
+
+Maven is configured to output an **exploded WAR** directly to Tomcat’s deployment folder (`/opt/tomcat/webapps/hello-jakarta/`) for faster redeploys.
+
+Key config:
+
+* The `maven-war-plugin` in [`pom.xml`](pom.xml) handles this.
+* `web.xml` is required and included in `WEB-INF`.
+
+**Build and deploy with:**
 
 ```bash
 mvn clean compile war:exploded
 ```
 
-This creates `target/hello-jakarta/` instead of a `.war`, ready for hot reload in Tomcat.
+---
+
+### 🔁 4. Development Workflow (Manual Hot Reload)
+
+After starting the container:
+
+1. **Start the file watcher:**
+
+   ```bash
+   ./watch.sh
+   ```
+
+   This script uses `watchexec` to monitor source files and automatically recompile and redeploy on changes.
+
+2. **Start Tomcat in another terminal:**
+
+   ```bash
+   catalina.sh run
+   ```
+
+   or
+
+   ```bash
+   /opt/tomcat/bin/catalina.sh run
+   ```
+
+3. **Workflow:**
+
+   * Make changes to `.java`, `.jsp`, or static files.
+   * Save the file — `watchexec` triggers a rebuild.
+   * Refresh the browser — no need to restart Tomcat.
 
 ---
 
-### 🔁 4. **Auto-Rebuild with File Watcher**
+### 🌐 5. Accessing the App
 
-Use a file watcher (like `mvn compile` running continuously) or an IDE like IntelliJ IDEA with **automatic build on save**. To automate rebuild:
+Visit the app at:
 
-#### Option A: Maven-based (good for simple cases)
-
-```bash
-mvn war:exploded -Dwatch
+```
+http://localhost:8080/hello-jakarta/
 ```
 
-#### Option B: Use `docker-compose` for a bind mount
-
-**`docker-compose.yml`**
-
-```yaml
-version: "3.8"
-services:
-  tomcat:
-    build: .
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./target/hello-jakarta:/usr/local/tomcat/webapps/hello-jakarta
-```
-
-Rebuild the app in Maven on the host, and Tomcat reloads files without restart.
+The landing page (`index.jsp`) links to a simple servlet at `/hello`.
 
 ---
 
-### 🧪 5. **Development Workflow**
+### 📁 Project Structure Overview
 
-1. Run Tomcat in Docker:
+| Path                                               | Purpose                        |
+| -------------------------------------------------- | ------------------------------ |
+| `src/main/java/com/nas/recovery/HelloServlet.java` | Example Servlet implementation |
+| `src/main/webapp/index.jsp`                        | JSP welcome page               |
+| `src/main/webapp/WEB-INF/web.xml`                  | Servlet mapping config         |
+| `tomcat-users.xml`                                 | Tomcat manager access control  |
 
-   ```bash
-   docker compose up --build
-   ```
+---
 
-2. In a separate terminal or via IDE:
+### 🛠️ Notes
 
-   ```bash
-   mvn clean compile war:exploded
-   ```
-
-3. Edit Java/JSP files → Save → Maven rebuilds → Docker auto-syncs → Tomcat reflects changes instantly.
+* `watch.sh` enables a development flow **very close to hot reload** — no Tomcat restart needed.
+* `tomcat-users.xml` must be manually copied and applied.
+* **Tomcat runs inside the dev container**; no need for Docker Compose unless you want external orchestration.
+* If using Docker Compose, mount your WAR or exploded directory manually.
