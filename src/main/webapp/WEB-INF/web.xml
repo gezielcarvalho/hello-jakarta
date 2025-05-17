@@ -2,26 +2,6 @@
          version="4.0">
 
   <servlet>
-    <servlet-name>HelloServlet</servlet-name>
-    <servlet-class>info.gezielcarvalho.HelloServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>HelloServlet</servlet-name>
-    <url-pattern>/hello</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>SubmitServlet</servlet-name>
-    <servlet-class>info.gezielcarvalho.SubmitServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>SubmitServlet</servlet-name>
-    <url-pattern>/submit</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
     <servlet-name>FacesServlet</servlet-name>
     <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
