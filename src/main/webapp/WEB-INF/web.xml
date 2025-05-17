@@ -3,12 +3,22 @@
 
   <servlet>
     <servlet-name>HelloServlet</servlet-name>
-    <servlet-class>com.nas.recovery.HelloServlet</servlet-class>
+    <servlet-class>info.gezielcarvalho.HelloServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
     <servlet-name>HelloServlet</servlet-name>
     <url-pattern>/hello</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>SubmitServlet</servlet-name>
+    <servlet-class>info.gezielcarvalho.SubmitServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>SubmitServlet</servlet-name>
+    <url-pattern>/submit</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>
