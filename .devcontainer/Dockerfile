@@ -1,7 +1,7 @@
 FROM maven:3.8-eclipse-temurin-8
 
-WORKDIR /workspace
-COPY . /workspace
+# Cleaner version
+WORKDIR /workspaces/hello-jakarta
 
 # Install Tomcat 9.0.105 inside the dev container
 RUN apt-get update && apt-get install -y wget && \
