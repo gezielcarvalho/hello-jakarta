@@ -17,6 +17,10 @@ RUN apt-get update && apt-get install -y curl && \
     rm watchexec-2.3.0-x86_64-unknown-linux-gnu.tar.xz && \
     mv watchexec-*/watchexec /usr/local/bin && \
     chmod +x /usr/local/bin/watchexec
+
+# Copy custom Tomcat configuration files from overrides/
+COPY overrides/context.xml /opt/tomcat/webapps/manager/META-INF/context.xml
+COPY overrides/tomcat-users.xml /opt/tomcat/conf/tomcat-users.xml
     
 ENV CATALINA_HOME=/opt/tomcat
 ENV PATH=$CATALINA_HOME/bin:$PATH

@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   app:
     build:
@@ -9,4 +8,4 @@ services:
       - ..:/workspaces/hello-jakarta
     ports:
       - "8080:8080"
-    command: /opt/tomcat/bin/catalina.sh run
+    command: tail -f /dev/null
