@@ -58,33 +58,46 @@ mvn clean compile war:exploded
 
 ### 🔁 4. Development Workflow (Manual Hot Reload)
 
-After starting the container:
+After starting the container, the project supports a near hot-reloading workflow with two helper scripts:
 
-1. **Start the file watcher:**
+#### 1. **Start the file watcher**
 
-   ```bash
-   ./watch.sh
-   ```
+```bash
+./watch.sh
+```
 
-   This script uses `watchexec` to monitor source files and automatically recompile and redeploy on changes.
+This uses [`watchexec`](https://github.com/watchexec/watchexec) to monitor source files (`.java`, `.jsp`, `.html`, etc.). When changes are detected, it runs the helper script `rebuild.sh`.
 
-2. **Start Tomcat in another terminal:**
+#### 2. **The rebuild script (`rebuild.sh`)**
 
-   ```bash
-   catalina.sh run
-   ```
+```bash
+#!/bin/bash
+mvn compile war:exploded
+touch /opt/tomcat/webapps/hello-jakarta/WEB-INF/web.xml
+```
 
-   or
+This script:
 
-   ```bash
-   /opt/tomcat/bin/catalina.sh run
-   ```
+* Rebuilds the project with Maven
+* **Triggers Tomcat to reload the app** by updating the timestamp of `web.xml`
 
-3. **Workflow:**
+> **ℹ️ Why `touch`?**
+>
+> The `touch` command **does not overwrite** the contents of `web.xml`.
+> It simply updates the file's **modification time**.
+> This is enough to signal Tomcat to reload the application context and pick up updated `.class` files.
 
-   * Make changes to `.java`, `.jsp`, or static files.
-   * Save the file — `watchexec` triggers a rebuild.
-   * Refresh the browser — no need to restart Tomcat.
+#### 3. **Start Tomcat in a separate terminal**
+
+```bash
+/opt/tomcat/bin/catalina.sh run
+```
+
+Once both the watcher and Tomcat are running:
+
+* You can edit `.jsp`, `.html`, or `.java` files
+* Save your changes
+* The app will rebuild and auto-reload with no Tomcat restart required
 
 ---
 
