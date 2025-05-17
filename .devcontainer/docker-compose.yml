@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   app:
     build:
@@ -9,3 +10,34 @@ services:
     ports:
       - "8080:8080"
     command: tail -f /dev/null
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASS: secret
+      DB_NAME: jakartadb
+
+  db:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: jakartadb
+    volumes:
+      - db-data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: secret
+    depends_on:
+      - db
+
+volumes:
+  db-data:
