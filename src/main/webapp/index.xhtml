@@ -9,7 +9,7 @@
     <h:outputLabel for="name" value="Name: " />
     <h:inputText id="name" value="#{userForm.name}" required="true" /><br/>
 
-    <h:selectBooleanCheckbox id="agree" value="#{userForm.agreed}" />
+    <h:selectBooleanCheckbox id="agree" value="#{userForm.termsAccepted}" />
     <h:outputLabel for="agree" value="I agree to the terms" /><br/>
 
     <h:commandButton value="Submit" action="#{userForm.submit}" />

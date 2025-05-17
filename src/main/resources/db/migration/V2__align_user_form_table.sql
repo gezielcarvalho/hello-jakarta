@@ -1,0 +1,5 @@
+ALTER TABLE user_form
+  CHANGE agreed terms_accepted TINYINT(1) NOT NULL;
+
+ALTER TABLE user_form
+  ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
