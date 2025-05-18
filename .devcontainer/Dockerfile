@@ -3,12 +3,14 @@ FROM maven:3.8-eclipse-temurin-8
 # Cleaner version
 WORKDIR /workspaces/hello-jakarta
 
-# Install Tomcat 9.0.105 inside the dev container
-RUN apt-get update && apt-get install -y wget && \
-    wget https://downloads.apache.org/tomcat/tomcat-9/v9.0.105/bin/apache-tomcat-9.0.105.tar.gz && \
-    tar xzf apache-tomcat-9.0.105.tar.gz && \
-    mv apache-tomcat-9.0.105 /opt/tomcat && \
-    chmod +x /opt/tomcat/bin/*.sh 
+# Install latest Tomcat 9.x version
+RUN apt-get update && apt-get install -y curl wget && \
+    TOMCAT_VERSION=$(curl -s https://downloads.apache.org/tomcat/tomcat-9/ | grep -oP '9\.\d+\.\d+/' | sort -V | tail -n 1 | tr -d '/') && \
+    echo "Downloading Tomcat version: $TOMCAT_VERSION" && \
+    wget https://downloads.apache.org/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz && \
+    tar xzf apache-tomcat-$TOMCAT_VERSION.tar.gz && \
+    mv apache-tomcat-$TOMCAT_VERSION /opt/tomcat && \
+    chmod +x /opt/tomcat/bin/*.sh
 
 RUN apt-get update && apt-get install -y curl && \
     curl -sLO https://github.com/watchexec/watchexec/releases/download/v2.3.0/watchexec-2.3.0-x86_64-unknown-linux-gnu.tar.xz && \
