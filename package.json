@@ -1,0 +1,12 @@
+{
+  "name": "hello-jakarta-tailwind",
+  "scripts": {
+    "build": "tailwindcss -i ./src/tailwind.css -o ./src/main/webapp/assets/css/tailwind.min.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.0.0",
+    "@tailwindcss/cli": "^4.0.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0"
+  }
+}

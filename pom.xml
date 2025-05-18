@@ -75,6 +75,46 @@
     <finalName>hello-jakarta</finalName>
     <plugins>
       <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>1.12.1</version>
+        <configuration>
+          <nodeVersion>v18.18.0</nodeVersion> <!-- ✅ Required -->
+          <npmVersion>9.6.7</npmVersion>       <!-- Optional but recommended -->
+        </configuration>
+        <executions>
+          <!-- Install Node.js and npm -->
+          <execution>
+            <id>install node and npm</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+          </execution>
+
+          <!-- Run npm install -->
+          <execution>
+            <id>npm install</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>install</arguments>
+            </configuration>
+          </execution>
+
+          <!-- Run Tailwind build -->
+          <execution>
+            <id>npm run build</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>run build</arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>

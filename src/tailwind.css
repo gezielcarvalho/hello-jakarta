@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/*
+  Import Tailwind's full theme to expose all utility classes
+  for Tailwind JIT in non-standard templates like .xhtml (JSF).
+  This ensures the classes we use are recognized and compiled,
+  without bloating the final CSS.
+*/
+@import "../node_modules/tailwindcss/theme.css";
