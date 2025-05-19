@@ -16,12 +16,32 @@ import javax.faces.context.FacesContext;
 public class UserListBean implements Serializable {
     private List<UserFormEntity> users;
     private UserFormEntity newUser;
+    private UserFormEntity selectedUser = new UserFormEntity();
 
     @PostConstruct
     public void init() {
         UserRepository repo = new UserRepository();
         users = repo.findAll();
         newUser = new UserFormEntity(); // Initialize empty user
+    }
+
+    public UserFormEntity getSelectedUser() {
+        return selectedUser;
+    }
+
+    public void setSelectedUser(UserFormEntity selectedUser) {
+        this.selectedUser = selectedUser;
+    }
+
+    public void save() {
+        UserRepository repo = new UserRepository();
+        if (selectedUser.getId() == null) {
+            repo.save(selectedUser); // insert
+        } else {
+            repo.update(selectedUser); // update
+        }
+        selectedUser = new UserFormEntity(); // clear form
+        users = repo.findAll(); // refresh table
     }
 
     public void addUser() {
@@ -40,6 +60,12 @@ public class UserListBean implements Serializable {
         repo.save(newUser);
         users = repo.findAll();  // Refresh list
         newUser = new UserFormEntity();  // Reset form
+    }
+
+    public void deleteUser(Long id) {
+        UserRepository repo = new UserRepository();
+        repo.delete(id);
+        users = repo.findAll(); // Refresh list
     }
 
     public List<UserFormEntity> getUsers() {

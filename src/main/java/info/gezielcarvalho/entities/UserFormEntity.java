@@ -9,7 +9,7 @@ public class UserFormEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -19,10 +19,10 @@ public class UserFormEntity implements Serializable {
     @Column(name = "created_at", updatable = false, insertable = false)
     private java.sql.Timestamp createdAt;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getName() {
@@ -78,12 +78,12 @@ public class UserFormEntity implements Serializable {
         this.name = name;
         this.termsAccepted = termsAccepted;
     }
-    public UserFormEntity(Integer id, String name, boolean termsAccepted) {
+    public UserFormEntity(Long id, String name, boolean termsAccepted) {
         this.id = id;
         this.name = name;
         this.termsAccepted = termsAccepted;
     }
-    public UserFormEntity(Integer id, String name, boolean termsAccepted, java.sql.Timestamp createdAt) {
+    public UserFormEntity(Long id, String name, boolean termsAccepted, java.sql.Timestamp createdAt) {
         this.id = id;
         this.name = name;
         this.termsAccepted = termsAccepted;
@@ -94,7 +94,7 @@ public class UserFormEntity implements Serializable {
         this.termsAccepted = termsAccepted;
         this.createdAt = createdAt;
     }
-    public UserFormEntity(Integer id) {
+    public UserFormEntity(Long id) {
         this.id = id;
     }
     public UserFormEntity(String name) {
@@ -106,11 +106,11 @@ public class UserFormEntity implements Serializable {
     public UserFormEntity(java.sql.Timestamp createdAt) {
         this.createdAt = createdAt;
     }
-    public UserFormEntity(Integer id, String name) {
+    public UserFormEntity(Long id, String name) {
         this.id = id;
         this.name = name;
     }
-    public UserFormEntity(Integer id, boolean termsAccepted) {
+    public UserFormEntity(Long id, boolean termsAccepted) {
         this.id = id;
         this.termsAccepted = termsAccepted;
     }

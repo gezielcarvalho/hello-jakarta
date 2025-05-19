@@ -10,58 +10,58 @@
 <h:body>
     <!-- Navbar -->
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />  <!-- Optional reuse -->
+    <h:messages globalOnly="true" layout="list"
+                styleClass="mb-4 text-red-600 text-sm font-semibold"/>
 
     <h1 class="text-2xl font-bold mb-4">User List</h1>
 
-    <input type="text" placeholder="Search users..." class="mb-4 p-2 border border-gray-300 rounded"/>
+    <h:form>
+        <h:panelGrid columns="2" styleClass="mb-4">
 
-    <h:form styleClass="mb-8 p-4 bg-white rounded shadow">
-        <h2 class="text-xl font-semibold mb-4">Add New User</h2>
+            <h:outputLabel value="Name:" for="name" />
+            <h:inputText id="name" value="#{userListBean.selectedUser.name}" required="true" />
 
-        <!-- Name Field with required validation -->
-        <div class="mb-4">
-            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-            <h:inputText id="name" value="#{userListBean.newUser.name}" required="true"
-                        requiredMessage="Name is required"
-                        styleClass="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"/>
-            <h:message for="name" styleClass="text-red-500 text-sm mt-1"/>
-        </div>
+            <h:outputLabel value="Agree to Terms:" for="agreed" />
+            <h:selectBooleanCheckbox id="agreed" value="#{userListBean.selectedUser.termsAccepted}" />
+        </h:panelGrid>
 
-        <!-- Checkbox -->
-        <div class="mb-4">
-            <label for="agreed" class="inline-flex items-center">
-                <h:selectBooleanCheckbox id="agreed" value="#{userListBean.newUser.termsAccepted}"/>
-                <span class="ml-2 text-sm text-gray-700">Agreed to Terms</span>
-            </label>
-        </div>
-
-        <h:commandButton value="Add User" action="#{userListBean.addUser}"
-                        styleClass="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"/>
+        <h:commandButton value="#{userListBean.selectedUser.id == null ? 'Add User' : 'Update User'}"
+                        action="#{userListBean.save}" />
     </h:form>
 
     <h:dataTable value="#{userListBean.users}" var="user"
                 styleClass="table-auto w-full border-collapse border border-gray-300"
                 rowClasses="bg-white even:bg-gray-100 odd:bg-white"
                 rowIndexVar="rowIndex">
+
         <h:column>
-            <f:facet name="header">
-                <span class="font-semibold text-left text-gray-700">ID</span>
-            </f:facet>
-            <span class="block px-4 py-2">#{user.id}</span>
+            <f:facet name="header">ID</f:facet>
+            #{user.id}
         </h:column>
+
         <h:column>
-            <f:facet name="header">
-                <span class="font-semibold text-left text-gray-700">Name</span>
-            </f:facet>
-            <span class="block px-4 py-2">#{user.name}</span>
+            <f:facet name="header">Name</f:facet>
+            #{user.name}
         </h:column>
+
         <h:column>
-            <f:facet name="header">
-                <span class="font-semibold text-left text-gray-700">Agreed</span>
-            </f:facet>
-            <span class="block px-4 py-2">#{user.termsAccepted ? 'Yes' : 'No'}</span>
+            <f:facet name="header">Agreed</f:facet>
+            #{user.termsAccepted ? 'Yes' : 'No'}
         </h:column>
+
+        <h:column>
+            <f:facet name="header">Actions</f:facet>
+            <h:form>
+                <h:commandButton value="Delete"
+                                action="#{userListBean.deleteUser(user.id)}"
+                                onclick="return confirm('Are you sure you want to delete this user?');"
+                                styleClass="bg-red-600 text-white px-2 py-1 text-sm rounded hover:bg-red-700"/>
+                <h:commandButton value="Edit" action="#{userListBean.setSelectedUser(user)}" />
+            </h:form>
+        </h:column>
+
     </h:dataTable>
+
 
 
     <br/>

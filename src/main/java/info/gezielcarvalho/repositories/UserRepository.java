@@ -32,6 +32,17 @@ public class UserRepository {
         }
     }
 
+    public void update(UserFormEntity user) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.merge(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
     public void delete(Long id) {
         EntityManager em = emf.createEntityManager();
         try {
