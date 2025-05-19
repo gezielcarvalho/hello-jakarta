@@ -13,21 +13,56 @@
 
     <h1 class="text-2xl font-bold mb-4">User List</h1>
 
+    <input type="text" placeholder="Search users..." class="mb-4 p-2 border border-gray-300 rounded"/>
+
+    <h:form styleClass="mb-8 p-4 bg-white rounded shadow">
+        <h2 class="text-xl font-semibold mb-4">Add New User</h2>
+
+        <!-- Name Field with required validation -->
+        <div class="mb-4">
+            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+            <h:inputText id="name" value="#{userListBean.newUser.name}" required="true"
+                        requiredMessage="Name is required"
+                        styleClass="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"/>
+            <h:message for="name" styleClass="text-red-500 text-sm mt-1"/>
+        </div>
+
+        <!-- Checkbox -->
+        <div class="mb-4">
+            <label for="agreed" class="inline-flex items-center">
+                <h:selectBooleanCheckbox id="agreed" value="#{userListBean.newUser.termsAccepted}"/>
+                <span class="ml-2 text-sm text-gray-700">Agreed to Terms</span>
+            </label>
+        </div>
+
+        <h:commandButton value="Add User" action="#{userListBean.addUser}"
+                        styleClass="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"/>
+    </h:form>
+
     <h:dataTable value="#{userListBean.users}" var="user"
-                 styleClass="table-auto w-full border-collapse border border-gray-300">
+                styleClass="table-auto w-full border-collapse border border-gray-300"
+                rowClasses="bg-white even:bg-gray-100 odd:bg-white"
+                rowIndexVar="rowIndex">
         <h:column>
-            <f:facet name="header">ID</f:facet>
-            #{user.id}
+            <f:facet name="header">
+                <span class="font-semibold text-left text-gray-700">ID</span>
+            </f:facet>
+            <span class="block px-4 py-2">#{user.id}</span>
         </h:column>
         <h:column>
-            <f:facet name="header">Name</f:facet>
-            #{user.name}
+            <f:facet name="header">
+                <span class="font-semibold text-left text-gray-700">Name</span>
+            </f:facet>
+            <span class="block px-4 py-2">#{user.name}</span>
         </h:column>
         <h:column>
-            <f:facet name="header">Agreed</f:facet>
-            #{user.termsAccepted ? 'Yes' : 'No'}
+            <f:facet name="header">
+                <span class="font-semibold text-left text-gray-700">Agreed</span>
+            </f:facet>
+            <span class="block px-4 py-2">#{user.termsAccepted ? 'Yes' : 'No'}</span>
         </h:column>
     </h:dataTable>
+
 
     <br/>
     <h:link value="Back to Home" outcome="index" styleClass="text-blue-600 hover:underline"/>
