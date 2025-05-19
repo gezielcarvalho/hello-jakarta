@@ -33,6 +33,10 @@ public class UserListBean implements Serializable {
         this.selectedUser = selectedUser;
     }
 
+    public boolean isAnyUserDisagreed() {
+        return users.stream().anyMatch(user -> !Boolean.TRUE.equals(user.isTermsAccepted()));
+    }
+
     public void save() {
         UserRepository repo = new UserRepository();
         if (selectedUser.getId() == null) {
