@@ -5,3 +5,12 @@ opt/
 .DS_Store
 node_modules/
 node/
+
+# ignore minified files in any path
+
+**/*.min.css
+**/*.min.js
+**/*.min.map
+**/*.gz
+**/*.zip
+src/**/*.min.css
