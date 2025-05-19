@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>User List</title>
+    <link rel="stylesheet" href="/hello-jakarta/assets/css/tailwind.min.css"/>
+</h:head>
+<h:body class="p-8 bg-gray-100 text-gray-900">
+    <h1 class="text-2xl font-bold mb-4">User List</h1>
+
+    <h:dataTable value="#{userListBean.users}" var="user"
+                 styleClass="table-auto w-full border-collapse border border-gray-300">
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{user.id}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Name</f:facet>
+            #{user.name}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Agreed</f:facet>
+            #{user.termsAccepted ? 'Yes' : 'No'}
+        </h:column>
+    </h:dataTable>
+
+    <br/>
+    <h:link value="Back to Home" outcome="index" styleClass="text-blue-600 hover:underline"/>
+</h:body>
+</html>

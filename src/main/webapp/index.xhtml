@@ -2,22 +2,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-  <title>JSF Form</title>
-  <link rel="stylesheet" href="#{request.contextPath}/assets/css/tailwind.min.css" />
+    <title>Welcome</title>
+    <link rel="stylesheet" href="/hello-jakarta/assets/css/tailwind.min.css" />
 </h:head>
-<h:body>
-  <h1 class="underline rounded-xl text-red-600 bg-gray-200 p-4 m-4">
-    Hello Tailwind!
-  </h1>
+<h:body class="p-4">
 
-  <h:form>
-    <h:outputLabel for="name" value="Name: " />
-    <h:inputText id="name" value="#{userForm.name}" required="true" /><br/>
+<!-- Navbar -->
+<nav class="bg-sky-800 text-white p-4 mb-6 rounded shadow">
+    <ul class="flex space-x-6 font-medium">
+        <li>
+            <h:link outcome="index" styleClass="hover:text-yellow-300 transition-colors duration-200">Home</h:link>
+        </li>
+        <li>
+            <h:link outcome="users" styleClass="hover:text-yellow-300 transition-colors duration-200">Users</h:link>
+        </li>
+    </ul>
+</nav>
 
-    <h:selectBooleanCheckbox id="agree" value="#{userForm.termsAccepted}" />
-    <h:outputLabel for="agree" value="I agree to the terms" /><br/>
+    <!-- Welcome content -->
+    <h1 class="text-2xl font-bold mb-4">Hello Jakarta + Tailwind!</h1>
 
-    <h:commandButton value="Submit" action="#{userForm.submit}" />
-  </h:form>
+    <!-- Existing content goes here -->
 </h:body>
 </html>
