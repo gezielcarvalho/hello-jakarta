@@ -14,3 +14,4 @@ node/
 **/*.gz
 **/*.zip
 src/**/*.min.css
+src/main/webapp/assets/css/tailwind.min.css
