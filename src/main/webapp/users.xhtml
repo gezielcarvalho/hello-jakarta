@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
     <title>User List</title>
     <link rel="stylesheet" href="/hello-jakarta/assets/css/tailwind.min.css"/>
 </h:head>
-<h:body class="p-8 bg-gray-100 text-gray-900">
+<h:body>
+    <!-- Navbar -->
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />  <!-- Optional reuse -->
+
     <h1 class="text-2xl font-bold mb-4">User List</h1>
 
     <h:dataTable value="#{userListBean.users}" var="user"

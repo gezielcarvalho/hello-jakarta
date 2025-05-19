@@ -1,0 +1,19 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+    <!-- Navbar -->
+    <div class="bg-blue-800 text-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+            <div class="flex space-x-4">
+                <h:link outcome="index" styleClass="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
+                Home
+                </h:link>
+                <h:link outcome="users" styleClass="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
+                Users
+                </h:link>
+            </div>
+            </div>
+        </div>
+    </div>
+</ui:composition>
