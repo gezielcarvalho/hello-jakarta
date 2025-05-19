@@ -26,6 +26,7 @@
 
             <h:outputLabel value="Name:" for="name" />
             <h:inputText id="name" value="#{userListBean.selectedUser.name}" required="true" />
+            <h:message for="name" styleClass="text-red-500 text-sm mt-1"/>
 
             <h:outputLabel value="Agree to Terms:" for="agreed" />
             <h:selectBooleanCheckbox id="agreed" value="#{userListBean.selectedUser.termsAccepted}" />
