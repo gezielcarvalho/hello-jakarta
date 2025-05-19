@@ -38,18 +38,7 @@ public class UserListBean implements Serializable {
     }
 
     public void save() {
-        UserRepository repo = new UserRepository();
-        if (selectedUser.getId() == null) {
-            repo.save(selectedUser); // insert
-        } else {
-            repo.update(selectedUser); // update
-        }
-        selectedUser = new UserFormEntity(); // clear form
-        users = repo.findAll(); // refresh table
-    }
-
-    public void addUser() {
-        if (newUser.getName() == null || newUser.getName().trim().isEmpty()) {
+        if (selectedUser.getName() == null || selectedUser.getName().trim().isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Name is required", null));
             return;
@@ -61,9 +50,13 @@ public class UserListBean implements Serializable {
             return;
         }
         UserRepository repo = new UserRepository();
-        repo.save(newUser);
-        users = repo.findAll();  // Refresh list
-        newUser = new UserFormEntity();  // Reset form
+        if (selectedUser.getId() == null) {
+            repo.save(selectedUser); // insert
+        } else {
+            repo.update(selectedUser); // update
+        }
+        selectedUser = new UserFormEntity(); // clear form
+        users = repo.findAll(); // refresh table
     }
 
     public void deleteUser(Long id) {
